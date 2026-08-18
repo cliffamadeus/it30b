@@ -10,3 +10,4 @@
 
 # Utility Commands
 \! cls 
+mysqldump -u root -p --databases library_db > D:\dev\it30b\backups\date_db_name.sql
