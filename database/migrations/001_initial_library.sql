@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS borrow (
     -- Borrow table constraints and foreign keys
     CONSTRAINT fk_borrow_student
         FOREIGN KEY (student_id)
-        REFERENCES students(students_id)
+        REFERENCES students(student_id)
         ON UPDATE CASCADE
         ON DELETE RESTRICT,
     
