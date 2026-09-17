@@ -22,6 +22,14 @@ try{
     die("Database connection failed" . $e->getMessage());
 }
 
+
+
+
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
