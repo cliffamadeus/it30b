@@ -42,6 +42,39 @@ if($section==='students'){
     $students = $stmt->fetchAll();
 }
 
+// Create Student
+if($section=='students' && $action==='create'){
+
+    if($_SERVER['REQUEST_METHOD']==='POST'){
+
+        $firstName = trim($_POST['student_first_name'] ?? '');
+        $lastName = trim($_POST['student_last_name'] ?? '');
+        $course = trim($_POST['student_course'] ?? '');
+
+        if($firstName !== '' && $lastName !=='' && $course!== ''){
+            $sql = "
+                INSERT INTO students(
+                    student_first_name,
+                    student_last_name,
+                    student_course
+                )
+                VALUES (?,?,?)
+            ";
+
+            $stmt=$pdo->prepare($sql);
+
+            $stmt->execute([
+                $firstName,
+                $lastName,
+                $course
+            ]);
+
+            header("Location: index.php?section=students");
+            exit;
+        }
+    }
+}
+
 
 
 
@@ -66,49 +99,102 @@ if($section==='students'){
     <hr>
     <?php if($section === 'students'): ?>
         <h1>Students</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Course</th>
-                    <th>Created at</th>
-                    <th>Actions</th>
-                </tr>
-            <thead>
-            <tbody>
-                <?php foreach($students as $student): ?>
+        <p>
+            <a href="index.php?section=students&action=create">
+                Add Student
+            </a>
+        </p>
+
+        <?php if($action==='create'): ?>
+            <h2>Create Student</h2>
+
+            <form method="POST">
+                <p>
+                    <label>First Name:</label>
+                    <br>
+                    <input  type="text"
+                            name="student_first_name"
+                            required
+                    />
+                </p>
+
+                <p>
+                    <label>Last Name:</label>
+                    <br>
+                    <input  type="text"
+                            name="student_last_name"
+                            required
+                    />
+                </p>
+
+                <p>
+                    <label>Course:</label>
+                    <br>
+                    <input  type="text"
+                            name="student_course"
+                            required
+                    />
+                </p>
+
+                <button type="submit">
+                    Save
+                </button>
+                
+                <a href="index.php?section=students">
+                    Cancel
+                </a>
+                
+            </form>
+
+        <?php else: ?>
+
+            <table>
+                <thead>
                     <tr>
-                        <td>
-                            <?=htmlspecialchars($student['student_id']) ?>
-                        </td>
-                        <td>
-                            <?=htmlspecialchars($student['student_first_name']) ?>
-                        </td>
-                        <td>
-                            <?=htmlspecialchars($student['student_last_name']) ?>
-                        </td>
-                        <td>
-                            <?=htmlspecialchars($student['student_course']) ?>
-                        </td>
-                        <td>
-                            <?=htmlspecialchars($student['student_created_at']) ?>
-                        </td>
-                         <td>
-                            <a>Edit</a>
-                            |
-                            <a>Delete</a>
-                        </td>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Course</th>
+                        <th>Created at</th>
+                        <th>Actions</th>
                     </tr>
-                <?php endforeach?>
-            </tbody>
-
-        </table>
-
-
+                <thead>
+                <tbody>
+                    <?php foreach($students as $student): ?>
+                        <tr>
+                            <td>
+                                <?=htmlspecialchars($student['student_id']) ?>
+                            </td>
+                            <td>
+                                <?=htmlspecialchars($student['student_first_name']) ?>
+                            </td>
+                            <td>
+                                <?=htmlspecialchars($student['student_last_name']) ?>
+                            </td>
+                            <td>
+                                <?=htmlspecialchars($student['student_course']) ?>
+                            </td>
+                            <td>
+                                <?=htmlspecialchars($student['student_created_at']) ?>
+                            </td>
+                            <td>
+                                <a>Edit</a>
+                                |
+                                <a>Delete</a>
+                            </td>
+                        </tr>
+                    <?php endforeach?>
+                </tbody>
+            </table>
+        
+        <?php endif;?>
 
     <?php endif;?>
+
+
+
+
+
 
     <?php if($section === 'books'): ?>
         <h1>Books</h1>
