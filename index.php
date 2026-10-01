@@ -218,7 +218,7 @@ if ($section === 'books' && $action === 'update') {
 
 // RETRIEVE BORROWED BOOKS
 if($section=='borrow'){
-    
+
     // Retrieve students
     $stmt = $pdo->prepare("
         SELECT 
@@ -241,7 +241,7 @@ if($section=='borrow'){
         ORDER BY book_title
     ");
 
-    $students = $stmt->fetchAll();
+    $books = $stmt->fetchAll();
 }
 
 // CREATE BORROW
